@@ -38,21 +38,19 @@ void AMyProjectPlayerController::HideRestartWidget()
 	}
 }
 
-void AMyProjectPlayerController::UpdateHUDWidget(float HealthPercent)
+void AMyProjectPlayerController::UpdateHUDWidget(int Health)
 {
 	if (HUDWidget != nullptr) {
-		HUDWidget->UpdateHealthPercent(HealthPercent);
+		HUDWidget->UpdateHealthBar(Health);
 	}
 }
 
 void AMyProjectPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	/*
 	
 	if (BP_HUDWidget != nullptr) {
 		HUDWidget = CreateWidget<UHUDWidget>(this, BP_HUDWidget);
 		HUDWidget->AddToViewport();
 	}
-	*/
 }

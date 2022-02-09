@@ -20,14 +20,14 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	UPROPERTY(EditDefaultsOnly, Category = Health)
-	float Health = 100.f;
+	int Health = 3;
 
 
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void LoseHealth(float amount);
-	FORCEINLINE float GetHealthPercent() const { return Health / 100.f; }
+	void LoseHealth(int amount);
+	FORCEINLINE int GetHealthPercent() const { return Health ; }
 		
 };

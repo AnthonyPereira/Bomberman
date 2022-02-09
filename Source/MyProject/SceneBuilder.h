@@ -17,10 +17,10 @@ public:
 	ASceneBuilder();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wall);
-	float H;
+	int H;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wall);
-	float W;
+	int W;
 
 protected:
 	// Called when the game starts or when spawned

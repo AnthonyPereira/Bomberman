@@ -57,6 +57,8 @@ AMyProjectCharacter::AMyProjectCharacter()
 
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health component"));
+
+
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -127,6 +129,7 @@ void AMyProjectCharacter::ThrowBomb()
 	FTransform SpawnTransform(GetActorRotation(), SpawnLocation);
 
 	ABomb* Bomb = GetWorld()->SpawnActorDeferred<ABomb>(BombClass, SpawnTransform);
+	Bomb->SetDensity(2);
 	Bomb->FinishSpawning(SpawnTransform);
 
 }
@@ -140,7 +143,6 @@ int AMyProjectCharacter::FloorHundred(float a) {
 	else if(a>0) {
 		res = (a / 100) + 0.5;
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::SanitizeFloat(res*100));
 
 	return res * 100;
 

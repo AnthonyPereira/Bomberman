@@ -2,27 +2,98 @@
 
 
 #include "Bomb.h"
+#include "Wall.h"
+#include "MyProjectCharacter.h"
+
+#include "DestructableWall.h"
+#include "HealthComponent.h"
+
+#include <DrawDebugHelpers.h>
+#include <Kismet/KismetMathLibrary.h> 
+#include <Kismet/Gameplaystatics.h> 
 #include <Components/SphereComponent.h>
 
 // Sets default values
 ABomb::ABomb()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("BOMB"));
-	SphereComponent->SetSphereRadius(40.f);
-	//SphereComponent->SetCollisionProfileName(FName("Patatepreset"));
 	SphereComponent->SetSimulatePhysics(true);
+	SphereComponent->SetSphereRadius(50.f);
 	SphereComponent->SetNotifyRigidBodyCollision(true);
-	//SphereComponent->OnComponentHit.AddDynamic(this, &APatate::OnHit);
+	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ABomb::OnBeginOverlap);
+	SphereComponent->OnComponentEndOverlap.AddDynamic(this, &ABomb::OnComponentEndOverlap);
 	RootComponent = SphereComponent;
+}
+
+ABomb::ABomb(int density)
+{
+	ABomb();
+	this->Density = density;
 }
 
 // Called when the game starts or when spawned
 void ABomb::BeginPlay()
 {
 	Super::BeginPlay();
-	SetLifeSpan(5.f);
+	GetWorldTimerManager().SetTimer(ExplodeTimerHandle, this, &ABomb::explode, 1.0f, true, 3.0f);
+	
+}
+
+void ABomb::explode() {
+
+	ExplodeDirection(GetActorLocation()+FVector::LeftVector * 50, (FVector::LeftVector * 100.f * Density) + GetActorLocation());
+	ExplodeDirection(GetActorLocation()+FVector::RightVector* 50, (FVector::RightVector * 100.f * Density) + GetActorLocation());
+	ExplodeDirection(GetActorLocation()+ FVector::ForwardVector* 50, (FVector::ForwardVector * 100.f * Density) + GetActorLocation());
+	ExplodeDirection(GetActorLocation()+ FVector::BackwardVector*50, (FVector::BackwardVector * 100.f * Density) + GetActorLocation());
+
+	
+	GetWorldTimerManager().ClearTimer(ExplodeTimerHandle);
+	Destroy();
+}
+
+
+void ABomb::ExplodeDirection(FVector start , FVector end) {
+
+
+	FCollisionQueryParams CollisionParams;
+
+	TArray<FHitResult> Hits;
+
+	bool hit = GetWorld()->LineTraceMultiByChannel(Hits, start, end, ECollisionChannel::ECC_GameTraceChannel1, CollisionParams);
+
+	DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 1, 0, 15);
+
+	if (Hits.Num()>0) {
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("%d"), Hits.Num()));
+
+		
+		for (size_t i = 0; i < Hits.Num(); i++)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, Hits[i].GetActor()->GetName());
+
+			ADestructableWall* wallhit = Cast<ADestructableWall>(Hits[i].GetActor());
+			if (wallhit != nullptr) {
+				wallhit->Destroy();
+				break;
+			}
+			
+			AMyProjectCharacter* Player = Cast<AMyProjectCharacter>(Hits[i].GetActor());
+
+			if (Player != nullptr) {
+				UHealthComponent* HealthComponent = Player->FindComponentByClass<UHealthComponent>();
+				HealthComponent->LoseHealth(1.f);
+				continue;
+			}
+
+			ABomb* bomb = Cast<ABomb>(Hits[i].GetActor());
+
+			if (bomb != nullptr) {
+				bomb->explode();
+			}
+		}
+	}
 }
 
 // Called every frame
@@ -30,5 +101,24 @@ void ABomb::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	
 }
+
+void ABomb::OnComponentEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	SphereComponent->SetCollisionProfileName(FName("Bombpreset"));
+
+}
+
+void ABomb::OnBeginOverlap(UPrimitiveComponent* OverlapperComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+
+}
+
+void ABomb::SetDensity(int i) {
+	Density=i;
+}
+
+
+
 

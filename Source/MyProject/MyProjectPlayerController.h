@@ -23,7 +23,7 @@ public:
 	void ShowRestartWidget();
 	void HideRestartWidget();
 
-	void UpdateHUDWidget(float HealthPercent);
+	void UpdateHUDWidget(int Health);
 
 protected:
 	virtual void BeginPlay()override;

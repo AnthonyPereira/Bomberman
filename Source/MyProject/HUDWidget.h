@@ -17,5 +17,10 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UProgressBar* HealthBar;
 
+	UPROPERTY(meta = (BindWidget))
+	class UWrapBox* HeartBar;
+
 	void UpdateHealthPercent(float HealthPercent);
+	void UpdateHealthBar(int current);
+
 };

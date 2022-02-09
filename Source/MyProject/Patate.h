@@ -35,7 +35,7 @@ public:
 		return ProjectileMovement;
 	}
 
-	float Damage = 15.f;
+	int  Damage = 15;
 protected:
 
 	UPROPERTY(EditAnywhere, Category = Sound);

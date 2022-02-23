@@ -37,13 +37,13 @@ ABomb::ABomb(int density)
 void ABomb::BeginPlay()
 {
 	Super::BeginPlay();
-	GetWorldTimerManager().SetTimer(ExplodeTimerHandle, this, &ABomb::explode, 1.0f, true, 3.0f);
+	GetWorldTimerManager().SetTimer(ExplodeTimerHandle, this, &ABomb::explode, 0.1f, true, 3.0f);
 	
 }
 
 void ABomb::explode() {
-
-	ExplodeDirection(GetActorLocation()+FVector::LeftVector * 50, (FVector::LeftVector * 100.f * Density) + GetActorLocation());
+	Isexplode = true;
+	ExplodeDirection(GetActorLocation()+FVector::LeftVector * 40, (FVector::LeftVector * 100.f * Density) + GetActorLocation());
 	ExplodeDirection(GetActorLocation()+FVector::RightVector* 50, (FVector::RightVector * 100.f * Density) + GetActorLocation());
 	ExplodeDirection(GetActorLocation()+ FVector::ForwardVector* 50, (FVector::ForwardVector * 100.f * Density) + GetActorLocation());
 	ExplodeDirection(GetActorLocation()+ FVector::BackwardVector*50, (FVector::BackwardVector * 100.f * Density) + GetActorLocation());
@@ -58,8 +58,9 @@ void ABomb::ExplodeDirection(FVector start , FVector end) {
 
 
 	FCollisionQueryParams CollisionParams;
-
+	const TArray<const AActor*> IgnoreActors = { this };
 	TArray<FHitResult> Hits;
+	CollisionParams.AddIgnoredActors(IgnoreActors);
 
 	bool hit = GetWorld()->LineTraceMultiByChannel(Hits, start, end, ECollisionChannel::ECC_GameTraceChannel1, CollisionParams);
 
@@ -89,7 +90,7 @@ void ABomb::ExplodeDirection(FVector start , FVector end) {
 
 			ABomb* bomb = Cast<ABomb>(Hits[i].GetActor());
 
-			if (bomb != nullptr) {
+			if (bomb != nullptr && !bomb->Isexplode) {
 				bomb->explode();
 			}
 		}
@@ -106,12 +107,14 @@ void ABomb::Tick(float DeltaTime)
 
 void ABomb::OnComponentEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	SphereComponent->SetCollisionProfileName(FName("Bombpreset"));
+	SphereComponent->SetCollisionProfileName(FName("BlockAll"));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::White, FString::Printf(TEXT("dehors : %f:%f"), GetActorLocation().X, GetActorLocation().Y));
 
 }
 
 void ABomb::OnBeginOverlap(UPrimitiveComponent* OverlapperComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::White, FString::Printf(TEXT("%f:%f"), GetActorLocation().X, GetActorLocation().Y));
 
 }
 

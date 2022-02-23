@@ -44,6 +44,8 @@ public:
 
 	int FloorHundred(float a);
 
+	FVector* LastLocation;
+
 protected:
 
 	/** Resets HMD orientation in VR. */

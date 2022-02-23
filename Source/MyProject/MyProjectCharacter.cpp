@@ -129,6 +129,7 @@ void AMyProjectCharacter::ThrowBomb()
 	FTransform SpawnTransform(GetActorRotation(), SpawnLocation);
 
 	ABomb* Bomb = GetWorld()->SpawnActorDeferred<ABomb>(BombClass, SpawnTransform);
+	Bomb->SetOwner(this);
 	Bomb->SetDensity(2);
 	Bomb->FinishSpawning(SpawnTransform);
 
@@ -185,6 +186,7 @@ void AMyProjectCharacter::MoveForward(float Value)
 {
 	if ((Controller != nullptr) && (Value != 0.0f))
 	{
+
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -199,6 +201,7 @@ void AMyProjectCharacter::MoveRight(float Value)
 {
 	if ( (Controller != nullptr) && (Value != 0.0f) )
 	{
+
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);

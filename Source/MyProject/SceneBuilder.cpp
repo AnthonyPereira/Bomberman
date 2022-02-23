@@ -21,10 +21,10 @@ void ASceneBuilder::BeginPlay()
 	FRotator ForwardVector(0.f, 0.f, 0.f);
 	FTransform SpawnTransform(ForwardVector);
 
-	GetWorld()->SpawnActor<AWall>(ExternWallClass, FTransform(ForwardVector, FVector(0, -(W / 2 + 1) * 100.f, 50), FVector(H + 2, 1, 1.75)));
-	GetWorld()->SpawnActor<AWall>(ExternWallClass, FTransform(ForwardVector, FVector(0, (W / 2 + 1) * 100.f, 50), FVector(H + 2, 1, 1.75)));
-	GetWorld()->SpawnActor<AWall>(ExternWallClass, FTransform(ForwardVector, FVector(-(H / 2 + 1) * 100.f, 0, 50), FVector(1, W, 1.75)));
-	GetWorld()->SpawnActor<AWall>(ExternWallClass, FTransform(ForwardVector, FVector((H / 2 + 1) * 100.f, 0, 50), FVector(1, W, 1.75)));
+	GetWorld()->SpawnActor<AWall>(ExternWallClass, FTransform(FRotator(0.f, 90.f, 0.f), FVector(0, -(W / 2 + 1) * 100.f, 50), FVector(1,H + 2, 1.5)));
+	GetWorld()->SpawnActor<AWall>(ExternWallClass, FTransform(FRotator(0.f, 90.f, 0.f), FVector(0, (W / 2 + 1) * 100.f, 50), FVector(1, H + 2, 1.5)));
+	GetWorld()->SpawnActor<AWall>(ExternWallClass, FTransform(ForwardVector, FVector(-(H / 2 + 1) * 100.f, 0, 50), FVector(1, W, 1.5)));
+	GetWorld()->SpawnActor<AWall>(ExternWallClass, FTransform(ForwardVector, FVector((H / 2 + 1) * 100.f, 0, 50), FVector(1, W, 1.5)));
 
 	GetWorld()->SpawnActor<AWall>(GroundClass, FTransform(ForwardVector, FVector(0.f, 0.f, -15), FVector(H, W, 1)));
 
@@ -45,6 +45,8 @@ void ASceneBuilder::BeginPlay()
 				)
 			{
 				continue;
+				//Spawn ici
+
 			}
 			else if ((i % 2 != 0 && j % 2 != 0))
 			{

@@ -48,9 +48,9 @@ void AMyProjectPlayerController::UpdateHUDWidget(int Health)
 void AMyProjectPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	/*
 	if (BP_HUDWidget != nullptr) {
 		HUDWidget = CreateWidget<UHUDWidget>(this, BP_HUDWidget);
 		HUDWidget->AddToViewport();
-	}
+	}*/
 }

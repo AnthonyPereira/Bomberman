@@ -26,6 +26,7 @@ public:
 	ABomb(int density);
 
 	FTimerHandle ExplodeTimerHandle;
+	bool Isexplode = false;
 
 protected:
 	// Called when the game starts or when spawned

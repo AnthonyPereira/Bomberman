@@ -20,7 +20,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	UPROPERTY(EditDefaultsOnly, Category = Health)
-	int Health = 3;
+	int Health = 1;
 
 
 public:	

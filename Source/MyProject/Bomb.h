@@ -11,7 +11,7 @@ class MYPROJECT_API ABomb : public AActor
 {
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Patate, meta = (AllowPrivateAccess = "true"));
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Explosion, meta = (AllowPrivateAccess = "true"));
 	class USphereComponent* SphereComponent;
 
 	
@@ -28,13 +28,16 @@ public:
 	FTimerHandle ExplodeTimerHandle;
 	bool Isexplode = false;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Explosion)
+	TSubclassOf<class AFlame> FlameClass;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void explode();
 
-	void ExplodeDirection(FVector start, FVector end);
+	void ExplodeDirection(FVector direction);
 
 public:	
 	// Called every frame

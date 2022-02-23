@@ -6,6 +6,8 @@
 #include "MyProjectCharacter.h"
 
 #include "DestructableWall.h"
+#include "Flame.h"
+
 #include "HealthComponent.h"
 
 #include <DrawDebugHelpers.h>
@@ -43,10 +45,10 @@ void ABomb::BeginPlay()
 
 void ABomb::explode() {
 	Isexplode = true;
-	ExplodeDirection(GetActorLocation()+FVector::LeftVector * 40, (FVector::LeftVector * 100.f * Density) + GetActorLocation());
-	ExplodeDirection(GetActorLocation()+FVector::RightVector* 50, (FVector::RightVector * 100.f * Density) + GetActorLocation());
-	ExplodeDirection(GetActorLocation()+ FVector::ForwardVector* 50, (FVector::ForwardVector * 100.f * Density) + GetActorLocation());
-	ExplodeDirection(GetActorLocation()+ FVector::BackwardVector*50, (FVector::BackwardVector * 100.f * Density) + GetActorLocation());
+	ExplodeDirection(FVector::LeftVector);
+	ExplodeDirection(FVector::RightVector);
+	ExplodeDirection(FVector::ForwardVector);
+	ExplodeDirection(FVector::BackwardVector);
 
 	
 	GetWorldTimerManager().ClearTimer(ExplodeTimerHandle);
@@ -54,47 +56,70 @@ void ABomb::explode() {
 }
 
 
-void ABomb::ExplodeDirection(FVector start , FVector end) {
+void ABomb::ExplodeDirection(FVector direction) {
 
-
+	FVector Start = GetActorLocation() + direction*50;
+	FVector End = (direction * 100.f * Density) + GetActorLocation();
 	FCollisionQueryParams CollisionParams;
 	const TArray<const AActor*> IgnoreActors = { this };
 	TArray<FHitResult> Hits;
 	CollisionParams.AddIgnoredActors(IgnoreActors);
 
-	bool hit = GetWorld()->LineTraceMultiByChannel(Hits, start, end, ECollisionChannel::ECC_GameTraceChannel1, CollisionParams);
+	bool hit = GetWorld()->LineTraceMultiByChannel(Hits, Start, End, ECollisionChannel::ECC_GameTraceChannel1, CollisionParams);
 
-	DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 1, 0, 15);
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1, 0, 15);
+	size_t i = 0;
 
-	if (Hits.Num()>0) {
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("%d"), Hits.Num()));
+	FVector Endparticle = End;
 
-		
-		for (size_t i = 0; i < Hits.Num(); i++)
+	if (Hits.Num() > 0) {		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("%d"), Hits.Num()));
+
+		for (i; i < Hits.Num(); i++)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, Hits[i].GetActor()->GetName());
-
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, Hits[i].GetActor()->GetName());
+			Endparticle = Hits[i].GetActor()->GetActorLocation();
 			ADestructableWall* wallhit = Cast<ADestructableWall>(Hits[i].GetActor());
 			if (wallhit != nullptr) {
 				wallhit->Destroy();
 				break;
 			}
-			
-			AMyProjectCharacter* Player = Cast<AMyProjectCharacter>(Hits[i].GetActor());
 
-			if (Player != nullptr) {
-				UHealthComponent* HealthComponent = Player->FindComponentByClass<UHealthComponent>();
-				HealthComponent->LoseHealth(1.f);
-				continue;
-			}
+			
 
 			ABomb* bomb = Cast<ABomb>(Hits[i].GetActor());
 
 			if (bomb != nullptr && !bomb->Isexplode) {
 				bomb->explode();
+				break;
 			}
+			
+		}
+		//GEngine->AddOnScreenDebugMessage(-1, 35.f, FColor::White, FString::Printf(TEXT("start: %f,%f  distance %f,%f\n"), Start.X, Start.Y, End.X, End.Y));
+
+	}
+	FVector Currentpos = Start;
+	int j = 0;
+	if (direction.Y!=0) {
+		while(Currentpos.Y != (Endparticle).Y && j!=15) {
+			AFlame* Flame = GetWorld()->SpawnActorDeferred<AFlame>(FlameClass, FTransform(Currentpos));
+			Flame->FinishSpawning(FTransform(Currentpos));
+			Currentpos += direction*25;
+			j++;
 		}
 	}
+
+
+	int k = 0;
+	if (direction.X != 0) {
+		while (Currentpos.X != (Endparticle).X && k != 15) {
+			AFlame* Flame = GetWorld()->SpawnActorDeferred<AFlame>(FlameClass, FTransform(Currentpos));
+			Flame->FinishSpawning(FTransform(Currentpos));
+			Currentpos += direction*25;
+			k++;
+		}
+	}
+
+
 }
 
 // Called every frame

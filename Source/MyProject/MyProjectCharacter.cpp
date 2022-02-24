@@ -126,13 +126,44 @@ void AMyProjectCharacter::ThrowBomb()
 	SpawnLocation.X = FloorHundred(SpawnLocation.X);
 	SpawnLocation.Y = FloorHundred(SpawnLocation.Y);
 
-	FTransform SpawnTransform(GetActorRotation(), SpawnLocation);
-
-	ABomb* Bomb = GetWorld()->SpawnActorDeferred<ABomb>(BombClass, SpawnTransform);
+	ABomb* Bomb = GetWorld()->SpawnActor<ABomb>(BombClass, SpawnLocation, GetActorRotation());
 	Bomb->SetOwner(this);
 	Bomb->SetDensity(2);
-	Bomb->FinishSpawning(SpawnTransform);
 
+
+	if (!HasAuthority()) {
+		Server_ThrowBomb(SpawnLocation, GetActorRotation());
+	}
+	else {
+		Multi_ThrowBomb(SpawnLocation, GetActorRotation());
+	}
+	
+
+}
+
+
+bool AMyProjectCharacter::Server_ThrowBomb_Validate(FVector Location, FRotator Rotation)
+{
+	return true;
+}
+
+void AMyProjectCharacter::Server_ThrowBomb_Implementation(FVector Location, FRotator Rotation)
+{
+	Multi_ThrowBomb(Location, Rotation);
+}
+
+bool AMyProjectCharacter::Multi_ThrowBomb_Validate(FVector Location, FRotator Rotation)
+{
+	return true;
+}
+
+void AMyProjectCharacter::Multi_ThrowBomb_Implementation(FVector Location, FRotator Rotation){
+	if (!IsLocallyControlled()) {
+		ABomb* Bomb = GetWorld()->SpawnActor<ABomb>(BombClass, Location, Rotation);
+		Bomb->SetOwner(this);
+		Bomb->SetDensity(2);
+	}
+		
 }
 
 int AMyProjectCharacter::FloorHundred(float a) {

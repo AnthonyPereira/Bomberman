@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "HealthComponent.h"
 #include "MyInterface.h"
+#include <MyProject\Character_Skill.h>
+
 #include "MyProjectCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -34,11 +36,17 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	virtual void OnSpeedUpdate_Implementation() override;
+
+
 	virtual void OnDeath_Implementation() override;
 	virtual void OnTakeDamage_Implementation() override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Patate)
 	TSubclassOf<class ABomb> BombClass;
+
+	UPROPERTY(EditAnywhere)
+	TArray<UCharacter_Skill*> List_Skills;
 
 	void ThrowBomb();
 
@@ -58,10 +66,10 @@ public:
 
 	FVector* LastLocation;
 
-protected:
+	UCharacter_Skill* GetComponentBySkillType(int type);
 
-	/** Resets HMD orientation in VR. */
-	void OnResetVR();
+
+protected:
 
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);

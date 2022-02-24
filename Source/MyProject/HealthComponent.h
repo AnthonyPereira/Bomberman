@@ -21,7 +21,7 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditDefaultsOnly, Category = Health)
 	int Health = 1;
-
+	
 
 public:	
 	// Called every frame

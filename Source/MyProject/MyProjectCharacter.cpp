@@ -4,6 +4,8 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "MyProjectPlayerController.h"
+#include "E_SkillsType.h"
+
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -11,6 +13,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Bomb.h"
 #include <Runtime\Engine\Classes\Kismet\KismetSystemLibrary.h>
+#include <MyProject\Character_Skill.h>
+
 
 //////////////////////////////////////////////////////////////////////////
 // AMyProjectCharacter
@@ -34,7 +38,7 @@ AMyProjectCharacter::AMyProjectCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
-	GetCharacterMovement()->MaxWalkSpeed = 300.f;
+	GetCharacterMovement()->MaxWalkSpeed = 200.f;
 
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
@@ -58,6 +62,17 @@ AMyProjectCharacter::AMyProjectCharacter()
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health component"));
 
+	UCharacter_Skill* FlameComponent = CreateDefaultSubobject<UCharacter_Skill>(TEXT("FlameDensity"));
+	FlameComponent->Init(2, 8, ESkillsType::Flame_Size);
+	List_Skills.Add(FlameComponent);	
+
+	UCharacter_Skill* BombComponent = CreateDefaultSubobject<UCharacter_Skill>(TEXT("Bomb Number"));
+	BombComponent->Init(1, 4, ESkillsType::Bomb_Number);
+	List_Skills.Add(BombComponent);
+
+	UCharacter_Skill* SpeedComponent = CreateDefaultSubobject<UCharacter_Skill>(TEXT("Speed"));
+	SpeedComponent->Init(1, 6, ESkillsType::Speed);
+	List_Skills.Add(SpeedComponent);
 
 }
 
@@ -89,11 +104,15 @@ void AMyProjectCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindTouch(IE_Pressed, this, &AMyProjectCharacter::TouchStarted);
 	PlayerInputComponent->BindTouch(IE_Released, this, &AMyProjectCharacter::TouchStopped);
 
-	// VR headset functionality
-	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AMyProjectCharacter::OnResetVR);
 
 }
 
+
+void AMyProjectCharacter::OnSpeedUpdate_Implementation()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 200.f + 100* List_Skills[ESkillsType::Speed]->value;
+
+}
 
 void AMyProjectCharacter::OnDeath_Implementation()
 {
@@ -116,7 +135,7 @@ void AMyProjectCharacter::OnTakeDamage_Implementation()
 
 void AMyProjectCharacter::ThrowBomb()
 {
-	if (BombClass == nullptr) {
+	if (BombClass == nullptr || List_Skills[ESkillsType::Bomb_Number]->value == 0) {
 		return;
 	}
 	
@@ -128,7 +147,8 @@ void AMyProjectCharacter::ThrowBomb()
 
 	ABomb* Bomb = GetWorld()->SpawnActor<ABomb>(BombClass, SpawnLocation, GetActorRotation());
 	Bomb->SetOwner(this);
-	Bomb->SetDensity(2);
+	Bomb->SetDensity(List_Skills[ESkillsType::Flame_Size]->value);
+	Bomb->FinishSpawning(SpawnTransform);
 
 
 	if (!HasAuthority()) {
@@ -180,16 +200,7 @@ int AMyProjectCharacter::FloorHundred(float a) {
 
 }
 
-void AMyProjectCharacter::OnResetVR()
-{
-	// If MyProject is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in MyProject.Build.cs is not automatically propagated
-	// and a linker error will result.
-	// You will need to either:
-	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).
-	// or:
-	//		Comment or delete the call to ResetOrientationAndPosition below (appropriate if not supporting VR)
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
-}
+
 
 void AMyProjectCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
 {
@@ -199,6 +210,11 @@ void AMyProjectCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Lo
 void AMyProjectCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
 		StopJumping();
+}
+
+UCharacter_Skill* AMyProjectCharacter::GetComponentBySkillType(int type)
+{
+	return List_Skills[type];
 }
 
 void AMyProjectCharacter::TurnAtRate(float Rate)

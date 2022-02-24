@@ -31,4 +31,8 @@ public:
 	void OnTakeDamage();
 	virtual void OnTakeDamage_Implementation() = 0;
 
+	UFUNCTION(BlueprintNativeEvent, Category = Skills)
+	void OnSpeedUpdate();
+	virtual void OnSpeedUpdate_Implementation() = 0;
+
 };

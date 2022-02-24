@@ -23,12 +23,13 @@ AFlame::AFlame()
 void AFlame::BeginPlay()
 {
 	Super::BeginPlay();
-	SetLifeSpan(1.2f);
+	SetLifeSpan(1.f);
 	
 }
 
 void AFlame::OnBeginOverlap(UPrimitiveComponent* OverlapperComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	
 	AMyProjectCharacter* Player = Cast<AMyProjectCharacter>(OtherActor);
 
 	if (Player != nullptr) {

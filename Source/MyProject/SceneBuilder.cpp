@@ -31,6 +31,7 @@ void ASceneBuilder::BeginPlay()
 
 
 	int** matrice;
+
 	matrice = new int* [H];
 	for (int k = 0; k < H; k++)
 		matrice[k] = new int[W];
@@ -70,15 +71,15 @@ void ASceneBuilder::BeginPlay()
 	float y_offset = (- W/2) * 100.f;
 	SpawnTransform.SetRotation(FRotator(0.f, 90.f, 0.f).Quaternion());
 
-	for (int i = 0; i < W; ++i) {
-		for (int j = 0; j < H; ++j) {
+	for (int i = 0; i < H; ++i) {
+		for (int j = 0; j < W; ++j) {
 			if (matrice[i][j] == 1) {
-				SpawnTransform.SetLocation(FVector(x_offset + j * 100.f, y_offset + i * 100.f, 50));
+				SpawnTransform.SetLocation(FVector(x_offset + i * 100.f, y_offset + j * 100.f, 70));
 				GetWorld()->SpawnActor<AWall>(WallClass, SpawnTransform);
 			}
 			if (matrice[i][j] == 2) {
-				//SpawnTransform.SetLocation(FVector(x_offset + j * 100.f, y_offset + i * 100.f, 50));
-				//GetWorld()->SpawnActor<AWall>(DestroyWallClass, SpawnTransform);
+				SpawnTransform.SetLocation(FVector(x_offset + i * 100.f, y_offset + j * 100.f, 50));
+				GetWorld()->SpawnActor<AWall>(DestroyWallClass, SpawnTransform);
 			}
 		}
 	}

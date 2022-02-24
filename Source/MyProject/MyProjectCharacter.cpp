@@ -148,7 +148,6 @@ void AMyProjectCharacter::ThrowBomb()
 	ABomb* Bomb = GetWorld()->SpawnActor<ABomb>(BombClass, SpawnLocation, GetActorRotation());
 	Bomb->SetOwner(this);
 	Bomb->SetDensity(List_Skills[ESkillsType::Flame_Size]->value);
-	Bomb->FinishSpawning(SpawnTransform);
 
 
 	if (!HasAuthority()) {
@@ -181,7 +180,7 @@ void AMyProjectCharacter::Multi_ThrowBomb_Implementation(FVector Location, FRota
 	if (!IsLocallyControlled()) {
 		ABomb* Bomb = GetWorld()->SpawnActor<ABomb>(BombClass, Location, Rotation);
 		Bomb->SetOwner(this);
-		Bomb->SetDensity(2);
+		Bomb->SetDensity(List_Skills[ESkillsType::Flame_Size]->value);
 	}
 		
 }

@@ -39,15 +39,7 @@ ABomb::ABomb(int density)
 void ABomb::BeginPlay()
 {
 	Super::BeginPlay();
-	AMyProjectCharacter* Player = Cast<AMyProjectCharacter>(GetOwner());
-
-	if (Player != nullptr) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("-1")));
-		UCharacter_Skill* BombComponent = Player->GetComponentBySkillType(ESkillsType::Bomb_Number);
-		if (BombComponent != nullptr) {
-			BombComponent->decrease();
-		}
-	}
+	
 	GetWorldTimerManager().SetTimer(ExplodeTimerHandle, this, &ABomb::explode, 0.1f, true, 3.0f);
 	
 }
@@ -66,7 +58,6 @@ void ABomb::explode() {
 	if(GetOwner()!=nullptr){
 		AMyProjectCharacter* Player = Cast<AMyProjectCharacter>(GetOwner());
 		if (Player != nullptr) {
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("+1")));
 			UCharacter_Skill* BombComponent = Player->GetComponentBySkillType(ESkillsType::Bomb_Number);
 			if (BombComponent != nullptr) {
 				BombComponent->increase();

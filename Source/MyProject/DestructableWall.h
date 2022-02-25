@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Wall.h"
+#include "Skills.h"
+
 #include "DestructableWall.generated.h"
 
 /**
@@ -14,5 +16,13 @@ class MYPROJECT_API ADestructableWall : public AWall
 {
 	GENERATED_BODY()
 
-		ADestructableWall();
+	ADestructableWall();
+
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Skills)
+	TArray<TSubclassOf<ASkills>> ArrayOfSkills;
+
+	virtual void Destroyed() override;
+
 };

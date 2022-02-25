@@ -36,7 +36,6 @@ void ASceneBuilder::BeginPlay()
 	for (int k = 0; k < H; k++)
 		matrice[k] = new int[W];
 
-	int num = rand() % 11;
 
 	for (int i = 0; i < H; ++i) {
 		for (int j = 0; j < W; ++j) {

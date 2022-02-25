@@ -28,15 +28,13 @@ ASkills::ASkills()
 // Called when the game starts or when spawned
 void ASkills::BeginPlay()
 {
-	Super::BeginPlay();
-	
+	Super::BeginPlay();	
 }
 
 // Called every frame
 void ASkills::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void ASkills::OnBeginOverlap(UPrimitiveComponent* OverlapperComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -44,7 +42,6 @@ void ASkills::OnBeginOverlap(UPrimitiveComponent* OverlapperComp, AActor* OtherA
 	AMyProjectCharacter* Player = Cast<AMyProjectCharacter>(OtherActor);
 
 	if (Player != nullptr) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("here")));
 		UCharacter_Skill* SkillComponent = Player->GetComponentBySkillType(SkillType);
 		if(SkillComponent != nullptr && SkillComponent->increase()){
 			this->Destroy();

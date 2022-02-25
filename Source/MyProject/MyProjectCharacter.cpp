@@ -149,6 +149,9 @@ void AMyProjectCharacter::ThrowBomb()
 	Bomb->SetOwner(this);
 	Bomb->SetDensity(List_Skills[ESkillsType::Flame_Size]->value);
 
+	AMyProjectCharacter* Player = Cast<AMyProjectCharacter>(GetOwner());
+
+	GetComponentBySkillType(ESkillsType::Bomb_Number)->decrease();
 
 	if (!HasAuthority()) {
 		Server_ThrowBomb(SpawnLocation, GetActorRotation());

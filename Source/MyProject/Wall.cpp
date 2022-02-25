@@ -18,6 +18,8 @@ void AWall::BeginPlay()
 	
 }
 
+
+
 // Called every frame
 void AWall::Tick(float DeltaTime)
 {

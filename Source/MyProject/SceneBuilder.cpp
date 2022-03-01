@@ -77,7 +77,7 @@ void ASceneBuilder::BeginPlay()
 				GetWorld()->SpawnActor<AWall>(WallClass, SpawnTransform);
 			}
 			if (matrice[i][j] == 2) {
-				SpawnTransform.SetLocation(FVector(x_offset + i * 100.f, y_offset + j * 100.f, 50));
+				SpawnTransform.SetLocation(FVector(x_offset + i * 100.f, y_offset + j * 100.f, 45));
 				GetWorld()->SpawnActor<AWall>(DestroyWallClass, SpawnTransform);
 			}
 		}

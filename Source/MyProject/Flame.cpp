@@ -23,7 +23,7 @@ AFlame::AFlame()
 void AFlame::BeginPlay()
 {
 	Super::BeginPlay();
-	SetLifeSpan(1.f);
+	SetLifeSpan(0.8f);
 	
 }
 

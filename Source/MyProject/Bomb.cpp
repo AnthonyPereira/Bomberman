@@ -9,6 +9,7 @@
 #include "Flame.h"
 
 #include "HealthComponent.h"
+#include "Skills.h"
 
 #include <DrawDebugHelpers.h>
 #include <Kismet/KismetMathLibrary.h> 
@@ -79,18 +80,21 @@ void ABomb::ExplodeDirection(FVector direction) {
 
 	bool hit = GetWorld()->LineTraceMultiByChannel(Hits, Start, End, ECollisionChannel::ECC_GameTraceChannel1, CollisionParams);
 
-	//DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1, 0, 15);
 	size_t i = 0;
 
 	FVector Endparticle = End;
 
-	if (Hits.Num() > 0) {		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("%d"), Hits.Num()));
-
+	if (Hits.Num() > 0) {		
 		for (i; i < Hits.Num(); i++)
 		{
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, Hits[i].GetActor()->GetName());
 			if (Hits[i].GetActor() == nullptr) {
 				break;
+			}
+			ASkills* skill = Cast<ASkills>(Hits[i].GetActor());
+			if (skill != nullptr) {
+				skill->Destroy();
+				continue;
 			}
 
 			Endparticle = Hits[i].GetActor()->GetActorLocation();
@@ -100,12 +104,15 @@ void ABomb::ExplodeDirection(FVector direction) {
 				break;
 			}
 
+			
+
 			ABomb* bomb = Cast<ABomb>(Hits[i].GetActor());
 
 			if (bomb != nullptr && !bomb->Isexplode) {
 				bomb->explode();
 				break;
 			}
+
 			
 			Endparticle -= direction * 50;
 		}
@@ -147,13 +154,17 @@ void ABomb::Tick(float DeltaTime)
 void ABomb::OnComponentEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	SphereComponent->SetCollisionProfileName(FName("BlockAll"));
-	//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::White, FString::Printf(TEXT("dehors : %f:%f"), GetActorLocation().X, GetActorLocation().Y));
 
+	if (AMyProjectCharacter* Player = Cast<AMyProjectCharacter>(OtherActor)) {
+		Player->InBomb = false;
+		//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::White, FString::Printf(TEXT("dehors : %f:%f"), GetActorLocation().X, GetActorLocation().Y));
+	}
 }
 
 void ABomb::OnBeginOverlap(UPrimitiveComponent* OverlapperComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::White, FString::Printf(TEXT("%f:%f"), GetActorLocation().X, GetActorLocation().Y));
+	
 
 }
 

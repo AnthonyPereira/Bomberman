@@ -27,9 +27,11 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	
+	UPROPERTY(BlueprintReadWrite,EditAnyWhere, Category = Skills)
 	int value = 0;
 
+	UPROPERTY(BlueprintReadWrite, EditAnyWhere, Category = Skills)
 	int max = 0;
 
 	TEnumAsByte<ESkillsType>  SkillType ;

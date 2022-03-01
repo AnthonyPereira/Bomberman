@@ -63,15 +63,12 @@ AMyProjectCharacter::AMyProjectCharacter()
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health component"));
 
 	UCharacter_Skill* FlameComponent = CreateDefaultSubobject<UCharacter_Skill>(TEXT("FlameDensity"));
-	FlameComponent->Init(2, 8, ESkillsType::Flame_Size);
 	List_Skills.Add(FlameComponent);	
 
 	UCharacter_Skill* BombComponent = CreateDefaultSubobject<UCharacter_Skill>(TEXT("Bomb Number"));
-	BombComponent->Init(1, 4, ESkillsType::Bomb_Number);
 	List_Skills.Add(BombComponent);
 
 	UCharacter_Skill* SpeedComponent = CreateDefaultSubobject<UCharacter_Skill>(TEXT("Speed"));
-	SpeedComponent->Init(1, 6, ESkillsType::Speed);
 	List_Skills.Add(SpeedComponent);
 
 }
@@ -110,7 +107,7 @@ void AMyProjectCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 void AMyProjectCharacter::OnSpeedUpdate_Implementation()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 200.f + 100* List_Skills[ESkillsType::Speed]->value;
+	GetCharacterMovement()->MaxWalkSpeed = 200.f + 50* List_Skills[ESkillsType::Speed]->value;
 
 }
 
@@ -135,10 +132,10 @@ void AMyProjectCharacter::OnTakeDamage_Implementation()
 
 void AMyProjectCharacter::ThrowBomb()
 {
-	if (BombClass == nullptr || List_Skills[ESkillsType::Bomb_Number]->value == 0) {
+	if (BombClass == nullptr || InBomb || List_Skills[ESkillsType::Bomb_Number]->value == 0) {
 		return;
 	}
-	
+	InBomb = true;
 	FVector SpawnLocation = GetActorLocation();
 	SpawnLocation.Z -= 60;
 

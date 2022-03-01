@@ -45,7 +45,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Patate)
 	TSubclassOf<class ABomb> BombClass;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadOnly,EditAnywhere)
 	TArray<UCharacter_Skill*> List_Skills;
 
 	void ThrowBomb();
@@ -64,7 +64,9 @@ public:
 
 	int FloorHundred(float a);
 
-	FVector* LastLocation;
+	bool InBomb=false;
+
+
 
 	UCharacter_Skill* GetComponentBySkillType(int type);
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "MyProjectPlayerController.h"
 #include "MyProjectGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -13,6 +14,15 @@ class AMyProjectGameMode : public AGameModeBase
 
 public:
 	AMyProjectGameMode();
+
+	TArray<TArray<int>> matrice;
+	int H = 11;
+	int W = 11;
+
+private:
+
+	void BeginPlay() override;
+
 };
 
 

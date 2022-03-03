@@ -3,12 +3,15 @@
 #include "MyProjectGameMode.h"
 #include "MyProjectCharacter.h"
 #include "MyGameState.h"
+#include "MyProjectPlayerController.h"
+
 #include "UObject/ConstructorHelpers.h"
 
 AMyProjectGameMode::AMyProjectGameMode()
 {
 
 	GameStateClass = AMyGameState::StaticClass();
+	PlayerControllerClass = AMyProjectPlayerController::StaticClass();
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Blueprints/ThirdPersonCharacter.ThirdPersonCharacter_C"));
 	if (PlayerPawnBPClass.Class != NULL)

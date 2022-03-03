@@ -11,7 +11,7 @@
 #include "MyProjectCharacter.generated.h"
 
 UCLASS(config=Game)
-class AMyProjectCharacter : public ACharacter,public IMyInterface
+class AMyProjectCharacter : public ACharacter, public IMyInterface
 {
 	GENERATED_BODY()
 
@@ -24,7 +24,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
-	class UHealthComponent* HealthComponent;
+	
 public:
 	AMyProjectCharacter();
 
@@ -38,6 +38,8 @@ public:
 
 	virtual void OnSpeedUpdate_Implementation() override;
 
+	UPROPERTY(BlueprintReadWrite, EditAnyWhere, Category = Health)
+	class UHealthComponent* HealthComponent;
 
 	virtual void OnDeath_Implementation() override;
 	virtual void OnTakeDamage_Implementation() override;

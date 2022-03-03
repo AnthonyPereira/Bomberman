@@ -10,7 +10,8 @@
 
 void AMyProjectPlayerController::ShowRestartWidget()
 {
-	
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::White, TEXT("Mort"));
+
 	if (BP_RestartWidget != nullptr) {
 		if (HUDWidget != nullptr) {
 			HUDWidget->RemoveFromParent();

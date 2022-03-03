@@ -15,6 +15,14 @@ class MYPROJECT_API AMyGameState : public AGameStateBase
 	GENERATED_BODY()
 	
 public:
+	
+	AMyGameState();
+	virtual ~AMyGameState() = default;
+	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int x;
+
 	TArray<TArray<int>> matrice;
 
 

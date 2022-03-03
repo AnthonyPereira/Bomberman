@@ -3,3 +3,6 @@
 
 #include "MyGameState.h"
 
+AMyGameState::AMyGameState() : x(1) {
+
+}

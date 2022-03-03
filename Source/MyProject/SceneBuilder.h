@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Wall.h"
 #include "GameFramework/Actor.h"
+#include "MyGameState.h"
 #include "SceneBuilder.generated.h"
 
 UCLASS()
@@ -13,6 +14,9 @@ class MYPROJECT_API ASceneBuilder : public AActor
 	GENERATED_BODY()
 	
 public:	
+
+	FTimerHandle TimeToLaunchMap;
+
 	// Sets default values for this actor's properties
 	ASceneBuilder();
 
@@ -27,6 +31,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+
+	void LoadLevel();
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

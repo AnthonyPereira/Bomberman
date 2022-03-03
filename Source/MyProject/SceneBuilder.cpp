@@ -17,7 +17,6 @@ ASceneBuilder::ASceneBuilder()
 void ASceneBuilder::BeginPlay()
 {
 	Super::BeginPlay();
-
 	
 	AMyGameState* MyGameState = GetWorld()->GetGameState<AMyGameState>() != NULL ? GetWorld()->GetGameState<AMyGameState>() : nullptr;
 	if (WallClass == nullptr || ExternWallClass == nullptr || DestroyWallClass == nullptr || MyGameState == nullptr) {
@@ -44,7 +43,7 @@ void ASceneBuilder::BeginPlay()
 				SpawnTransform.SetLocation(FVector(x_offset + i * 100.f, y_offset + j * 100.f, 70));
 				GetWorld()->SpawnActor<AWall>(WallClass, SpawnTransform);
 			}
-			if (matrice[i][j] == 2) {
+			if (MyGameState->matrice[i][j] == 2) {
 				SpawnTransform.SetLocation(FVector(x_offset + i * 100.f, y_offset + j * 100.f, 45));
 				GetWorld()->SpawnActor<AWall>(DestroyWallClass, SpawnTransform);
 			}

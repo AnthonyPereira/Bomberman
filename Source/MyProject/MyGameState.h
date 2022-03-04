@@ -24,6 +24,7 @@ public:
 	int x;
 
 	TArray<TArray<int>> matrice;
+	bool ready;
 
-
+	virtual void OnRep_ReplicatedHasBegunPlay();
 };

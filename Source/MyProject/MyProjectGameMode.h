@@ -31,7 +31,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category = "x", DisplayName = "Start Play")
 		void StartPlayEvent();
 
-
+	virtual void GenericPlayerInitialization(AController* C);
 	
 };
 

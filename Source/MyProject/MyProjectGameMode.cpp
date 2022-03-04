@@ -63,11 +63,23 @@ void AMyProjectGameMode::StartPlayEvent_Implementation(){
 
 
 	AMyGameState* MyGameState = GetGameState<AMyGameState>();
-	GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Red, FString::FString("matrix go game state"));
 	if (MyGameState == nullptr) {
-		GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Red, FString::FString("ret null"));
 		return;
 	}
 		
 	MyGameState->matrice = matrice;
+	MyGameState->HandleBeginPlay();
+}
+
+void AMyProjectGameMode::GenericPlayerInitialization(AController* C) {
+	AMyGameState* MyGameState = GetGameState<AMyGameState>();
+	if (HasAuthority()) {
+		GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Red, FString::FString("matrix go game state"));
+		if (MyGameState == nullptr) {
+			return;
+		}
+
+		MyGameState->matrice = matrice;
+	}
+	
 }

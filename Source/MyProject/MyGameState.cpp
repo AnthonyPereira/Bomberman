@@ -9,10 +9,11 @@ AMyGameState::AMyGameState() : x(1) {
 }
 
 void AMyGameState::OnRep_ReplicatedHasBegunPlay() {
-	while (!HasBegunPlay()) {
-
+	int i = 10000;
+	while (!HasBegunPlay() && i < 0) {
+		i--;
 	}
 	AMyProjectGameMode* const MyGameMode = Cast<AMyProjectGameMode>(AuthorityGameMode);
-	matrice = MyGameMode->matrice;
+	//matrice = MyGameMode->matrice;
 	ready = true;
 }

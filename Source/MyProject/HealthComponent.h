@@ -21,7 +21,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadWrite, EditAnyWhere, Category = Health)
-	int Health = 1;
+	int Health = 2;
 	
 
 public:	

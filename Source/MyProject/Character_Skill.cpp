@@ -7,13 +7,13 @@
 
 
 
-UCharacter_Skill::UCharacter_Skill()
+UCharacter_Skill::UCharacter_Skill() 
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
+	
 	PrimaryComponentTick.bCanEverTick = false;
 
 }
+
 
 // Sets default values for this component's properties
 void UCharacter_Skill::Init(int v, int m, TEnumAsByte<ESkillsType> s) 
@@ -43,6 +43,8 @@ bool UCharacter_Skill::increase() {
 	if (GetOwner()->Implements<UMyInterface>() && value < max) {
 		value++;
 		IMyInterface::Execute_OnSpeedUpdate(GetOwner());
+		IMyInterface::Execute_OnMeshUpdate(GetOwner());
+
 		return true;
 	}
 	return false;
@@ -52,6 +54,8 @@ bool UCharacter_Skill::decrease() {
 	if (GetOwner()->Implements<UMyInterface>() && value > 0) {
 		value--;
 		IMyInterface::Execute_OnSpeedUpdate(GetOwner());
+		IMyInterface::Execute_OnMeshUpdate(GetOwner());
+
 		return true;
 	}
 	return false;

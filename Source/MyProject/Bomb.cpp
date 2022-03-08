@@ -43,7 +43,7 @@ void ABomb::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	GetWorldTimerManager().SetTimer(ExplodeTimerHandle, this, &ABomb::explode, 0.1f, true, 3.0f);
+	GetWorldTimerManager().SetTimer(ExplodeTimerHandle, this, &ABomb::explode, 0.1f, false, 3.0f);
 	
 }
 

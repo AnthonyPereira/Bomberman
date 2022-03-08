@@ -66,10 +66,16 @@ AMyProjectCharacter::AMyProjectCharacter()
 	List_Skills.Add(FlameComponent);	
 
 	UCharacter_Skill* BombComponent = CreateDefaultSubobject<UCharacter_Skill>(TEXT("Bomb Number"));
+
 	List_Skills.Add(BombComponent);
 
 	UCharacter_Skill* SpeedComponent = CreateDefaultSubobject<UCharacter_Skill>(TEXT("Speed"));
+
 	List_Skills.Add(SpeedComponent);
+
+	UCharacter_Skill* RabbitComponent = CreateDefaultSubobject<UCharacter_Skill>(TEXT("Rabbit"));
+
+	List_Skills.Add(RabbitComponent);
 
 }
 
@@ -107,7 +113,13 @@ void AMyProjectCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 void AMyProjectCharacter::OnSpeedUpdate_Implementation()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 200.f + 50* List_Skills[ESkillsType::Speed]->value;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("NOOPY"));
+	if (List_Skills[ESkillsType::Rabbit]->value == 1) {
+		GetCharacterMovement()->MaxWalkSpeed = 200.f + 50 * List_Skills[ESkillsType::Speed]->max;
+	}
+	else {
+		GetCharacterMovement()->MaxWalkSpeed = 200.f + 50 * List_Skills[ESkillsType::Speed]->value;
+	}
 
 }
 
@@ -123,16 +135,29 @@ void AMyProjectCharacter::OnDeath_Implementation()
 
 void AMyProjectCharacter::OnTakeDamage_Implementation()
 {
+	if (List_Skills[ESkillsType::Rabbit]->value == 1) {
+		List_Skills[ESkillsType::Rabbit]->decrease();
+		return;
+	}
+	
+	HealthComponent->Health -= 1;
+	/*
 	AMyProjectPlayerController* PlayerController = Cast<AMyProjectPlayerController>(GetController());
 	if (PlayerController != nullptr) {
 		PlayerController->UpdateHUDWidget(HealthComponent->GetHealthPercent());
-		return;
-	}
+	}*/
+}
+
+void AMyProjectCharacter::OnMeshUpdate_Implementation()
+{
+
 }
 
 void AMyProjectCharacter::ThrowBomb()
 {
-	if (BombClass == nullptr || InBomb || List_Skills[ESkillsType::Bomb_Number]->value == 0) {
+
+
+	if (BombClass == nullptr || InBomb ||  List_Skills[ESkillsType::Bomb_Number]->value == 0) {
 		return;
 	}
 	InBomb = true;

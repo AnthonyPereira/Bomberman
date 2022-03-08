@@ -36,6 +36,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+
 	virtual void OnSpeedUpdate_Implementation() override;
 
 	UPROPERTY(BlueprintReadWrite, EditAnyWhere, Category = Health)
@@ -44,10 +45,13 @@ public:
 	virtual void OnDeath_Implementation() override;
 	virtual void OnTakeDamage_Implementation() override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Patate)
+
+	virtual void OnMeshUpdate_Implementation() override;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bomb)
 	TSubclassOf<class ABomb> BombClass;
 
-	UPROPERTY(BlueprintReadOnly,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	TArray<UCharacter_Skill*> List_Skills;
 
 	void ThrowBomb();

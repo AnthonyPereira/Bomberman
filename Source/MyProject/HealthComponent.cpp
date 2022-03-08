@@ -32,11 +32,17 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void UHealthComponent::LoseHealth(int amount)
 {
-	Health -= amount;
-	if (GetOwner()->Implements<UMyInterface>()) {
-		IMyInterface::Execute_OnTakeDamage(GetOwner());
-		if (Health <= 0.f) {
-			IMyInterface::Execute_OnDeath(GetOwner());
+	if (CanTakeDamage) {
+		CanTakeDamage = false;
+		GetWorld()->GetTimerManager().SetTimer(timer, this, &UHealthComponent::ResetCanTakeDamage, 0.1f, false, 3.f);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Il s'appelle Noupy"));
+
+		
+		if (GetOwner()->Implements<UMyInterface>()) {
+			IMyInterface::Execute_OnTakeDamage(GetOwner());
+			if (Health <= 0.f) {
+				IMyInterface::Execute_OnDeath(GetOwner());
+			}
 		}
 	}
 }

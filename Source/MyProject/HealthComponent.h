@@ -19,8 +19,7 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	UPROPERTY(BlueprintReadWrite, EditAnyWhere, Category = Health)
-	int Health = 1;
+	
 	
 
 public:	
@@ -29,5 +28,13 @@ public:
 
 	void LoseHealth(int amount);
 	FORCEINLINE int GetHealthPercent() const { return Health ; }
+
+	bool CanTakeDamage=true;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnyWhere, Category = Health)
+	int Health = 1;
+	FTimerHandle timer;
+
+	inline void ResetCanTakeDamage() { CanTakeDamage = true; };
 		
 };

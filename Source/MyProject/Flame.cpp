@@ -33,7 +33,6 @@ void AFlame::OnBeginOverlap(UPrimitiveComponent* OverlapperComp, AActor* OtherAc
 
 		UHealthComponent* HealthComponent = Player->FindComponentByClass<UHealthComponent>();
 		if(HealthComponent !=nullptr){
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Il s'appelle Noupy"));		
 			HealthComponent->LoseHealth(1.f);
 		}
 	}

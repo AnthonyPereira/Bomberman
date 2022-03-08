@@ -17,6 +17,8 @@ class MYPROJECT_API UCharacter_Skill : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UCharacter_Skill();
+	UCharacter_Skill(int value, int max);
+
 
 	void Init(int v,int m, TEnumAsByte<ESkillsType> s);
 

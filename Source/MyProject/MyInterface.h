@@ -35,4 +35,8 @@ public:
 	void OnSpeedUpdate();
 	virtual void OnSpeedUpdate_Implementation() = 0;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = Skills)
+	void OnMeshUpdate();
+	virtual void OnMeshUpdate_Implementation() = 0;
+
 };

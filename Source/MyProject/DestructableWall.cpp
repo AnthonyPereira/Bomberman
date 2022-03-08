@@ -13,14 +13,16 @@ ADestructableWall::ADestructableWall() {
 /// </summary>
 void ADestructableWall::Destroyed() {
 	if (ArrayOfSkills.Num()!=0 && rand()%5 <=2) {
-		int index = rand() % 10;
-		if (index < 4) {
-			index = 2;
-		}else if (index < 8) {
+		int index = rand() % 20;
+		if (index < 8) {
+			index = 3;
+		}else if (index < 14) {
 			index = 1;
+		}else if (index < 19) {
+			index = 2;
 		}
 		else {
-			index = 2;
+			index = 3;
 
 		}
 		if (HasAuthority()) {

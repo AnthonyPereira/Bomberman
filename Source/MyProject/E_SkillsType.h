@@ -11,4 +11,6 @@ enum  ESkillsType
     Flame_Size       UMETA(DisplayName = "Flame_Size"),
     Bomb_Number        UMETA(DisplayName = "Bomb_Number"),
     Speed        UMETA(DisplayName = "Speed"),
+    Rabbit        UMETA(DisplayName = "Rabbit"),
+
 };

@@ -74,7 +74,6 @@ AMyProjectCharacter::AMyProjectCharacter()
 	List_Skills.Add(SpeedComponent);
 
 	UCharacter_Skill* RabbitComponent = CreateDefaultSubobject<UCharacter_Skill>(TEXT("Rabbit"));
-
 	List_Skills.Add(RabbitComponent);
 
 }
@@ -113,7 +112,6 @@ void AMyProjectCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 void AMyProjectCharacter::OnSpeedUpdate_Implementation()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("NOOPY"));
 	if (List_Skills[ESkillsType::Rabbit]->value == 1) {
 		GetCharacterMovement()->MaxWalkSpeed = 200.f + 50 * List_Skills[ESkillsType::Speed]->max;
 	}

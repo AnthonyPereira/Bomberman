@@ -26,6 +26,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wall);
 	int W;
 
+	TArray<TArray<int>> matrice;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -15,23 +15,6 @@ class AMyProjectGameMode : public AGameModeBase
 public:
 	AMyProjectGameMode();
 	virtual ~AMyProjectGameMode() = default;
-
-	TArray<TArray<int>> matrice;
-	int H = 11;
-	int W = 11;
-
-	UFUNCTION(BlueprintPure, Category = "x")
-	virtual int GetX() const;
-
-	UFUNCTION(BlueprintCallable, Category = "x")
-		virtual void SetX(int newX);
-
-	virtual void StartPlay();
-
-	UFUNCTION(BlueprintNativeEvent, Category = "x", DisplayName = "Start Play")
-		void StartPlayEvent();
-
-	virtual void GenericPlayerInitialization(AController* C);
 	
 };
 

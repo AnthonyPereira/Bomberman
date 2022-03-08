@@ -23,8 +23,9 @@ void ADestructableWall::Destroyed() {
 			index = 2;
 
 		}
-
-		ASkills* skill = GetWorld()->SpawnActor<ASkills>(ArrayOfSkills[index ] , GetActorLocation(), GetActorRotation());
+		if (HasAuthority()) {
+			ASkills* skill = GetWorld()->SpawnActor<ASkills>(ArrayOfSkills[index], GetActorLocation(), GetActorRotation());
+		}
 	}
 
 }

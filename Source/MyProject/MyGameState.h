@@ -18,13 +18,5 @@ public:
 	
 	AMyGameState();
 	virtual ~AMyGameState() = default;
-	
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int x;
-
-	TArray<TArray<int>> matrice;
-	bool ready;
-
-	virtual void OnRep_ReplicatedHasBegunPlay();
 };

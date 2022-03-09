@@ -15,7 +15,7 @@ void ADestructableWall::Destroyed() {
 	if (ArrayOfSkills.Num()!=0 && rand()%5 <=2) {
 		int index = rand() % 20;
 		if (index < 8) {
-			index = 3;
+			index = 0;
 		}else if (index < 14) {
 			index = 1;
 		}else if (index < 19) {

@@ -20,8 +20,6 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	UPROPERTY(BlueprintReadWrite, EditAnyWhere, Category = Health)
-	int Health = 2;
 	
 
 public:	

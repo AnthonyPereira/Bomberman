@@ -53,6 +53,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = Skills)
 	void UpdateMyMesh();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = Skills)
+	void Death();
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bomb)
 	TSubclassOf<class ABomb> BombClass;
 

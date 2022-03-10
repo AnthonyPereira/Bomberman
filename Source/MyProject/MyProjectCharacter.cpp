@@ -111,8 +111,8 @@ void AMyProjectCharacter::OnDeath_Implementation()
 {
 	AMyProjectPlayerController* PlayerController = Cast<AMyProjectPlayerController>(GetController());
 	if (PlayerController != nullptr) {
-		Destroy();
-		PlayerController->ShowRestartWidget();
+		Death();
+		//PlayerController->ShowRestartWidget();
 		return;
 	}
 }

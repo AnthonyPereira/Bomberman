@@ -45,8 +45,13 @@ public:
 	virtual void OnDeath_Implementation() override;
 	virtual void OnTakeDamage_Implementation() override;
 
-
 	virtual void OnMeshUpdate_Implementation() override;
+
+	//UFUNCTION(BlueprintNativeEvent, Category = Skills)
+	//void MeshUpdate();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Skills)
+	void UpdateMyMesh();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bomb)
 	TSubclassOf<class ABomb> BombClass;

@@ -118,7 +118,7 @@ void AMyProjectCharacter::OnSpeedUpdate_Implementation()
 	else {
 		GetCharacterMovement()->MaxWalkSpeed = 200.f + 50 * List_Skills[ESkillsType::Speed]->value;
 	}
-
+	UpdateMyMesh();
 }
 
 void AMyProjectCharacter::OnDeath_Implementation()
@@ -148,8 +148,8 @@ void AMyProjectCharacter::OnTakeDamage_Implementation()
 
 void AMyProjectCharacter::OnMeshUpdate_Implementation()
 {
-
 }
+
 
 void AMyProjectCharacter::ThrowBomb()
 {

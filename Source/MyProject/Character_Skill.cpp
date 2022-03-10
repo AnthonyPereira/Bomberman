@@ -43,7 +43,7 @@ bool UCharacter_Skill::increase() {
 	if (GetOwner()->Implements<UMyInterface>() && value < max) {
 		value++;
 		IMyInterface::Execute_OnSpeedUpdate(GetOwner());
-		IMyInterface::Execute_OnMeshUpdate(GetOwner());
+		//IMyInterface::Execute_OnMeshUpdate(GetOwner());
 
 		return true;
 	}
@@ -54,7 +54,7 @@ bool UCharacter_Skill::decrease() {
 	if (GetOwner()->Implements<UMyInterface>() && value > 0) {
 		value--;
 		IMyInterface::Execute_OnSpeedUpdate(GetOwner());
-		IMyInterface::Execute_OnMeshUpdate(GetOwner());
+		//IMyInterface::Execute_OnMeshUpdate(GetOwner());
 
 		return true;
 	}

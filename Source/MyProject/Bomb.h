@@ -39,6 +39,15 @@ protected:
 
 	void ExplodeDirection(FVector direction);
 
+
+	UPROPERTY(EditAnywhere, Category = Sound);
+	class USoundBase* BombSound;
+
+	UPROPERTY(EditAnywhere, Category = Sound);
+	class USoundAttenuation* BombSoundAttenuation;
+
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

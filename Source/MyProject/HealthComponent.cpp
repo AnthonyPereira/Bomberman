@@ -35,8 +35,6 @@ void UHealthComponent::LoseHealth(int amount)
 	if (CanTakeDamage) {
 		CanTakeDamage = false;
 		GetWorld()->GetTimerManager().SetTimer(timer, this, &UHealthComponent::ResetCanTakeDamage, 0.1f, false, 3.f);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Il s'appelle Noupy"));
-
 		
 		if (GetOwner()->Implements<UMyInterface>()) {
 			IMyInterface::Execute_OnTakeDamage(GetOwner());

@@ -13,7 +13,7 @@ AMyProjectGameMode::AMyProjectGameMode()
 	GameStateClass = AMyGameState::StaticClass();
 	PlayerControllerClass = AMyProjectPlayerController::StaticClass();
 	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Blueprints/ThirdPersonCharacter.ThirdPersonCharacter_C"));
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Blueprints/BP_PlayerCharacter.BP_PlayerCharacter_C"));
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;

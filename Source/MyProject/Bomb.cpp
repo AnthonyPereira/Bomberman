@@ -106,6 +106,8 @@ void ABomb::ExplodeDirection(FVector direction) {
 				skill->Destroy();
 				continue;
 			}
+
+
 			Endparticle = Hits[i].GetActor()->GetActorLocation();
 
 			ADestructableWall* wallhit = Cast<ADestructableWall>(Hits[i].GetActor());
@@ -134,31 +136,28 @@ void ABomb::ExplodeDirection(FVector direction) {
 
 	if (direction.Y < 0) {
 		while (Currentpos.Y > Endparticle.Y && j < 15) {
-			AFlame* Flame = GetWorld()->SpawnActorDeferred<AFlame>(FlameClass, FTransform(Currentpos));
-			Flame->FinishSpawning(FTransform(Currentpos));
+			AFlame* Flame = GetWorld()->SpawnActor<AFlame>(FlameClass, FTransform(Currentpos));
 			Currentpos += (direction * 50);
 			j++;
 		}
 	}else if(direction.Y>0) {
-
 		while (Currentpos.Y <  Endparticle.Y && j < 15) {
-			AFlame* Flame = GetWorld()->SpawnActorDeferred<AFlame>(FlameClass, FTransform(Currentpos));
-			Flame->FinishSpawning(FTransform(Currentpos));
+			AFlame* Flame = GetWorld()->SpawnActor<AFlame>(FlameClass, FTransform(Currentpos));
+
 			Currentpos += (direction * 50);
 			j++;
 		}
 	}else if (direction.X < 0) {
-
 		while (Currentpos.X > Endparticle.X && j < 15) {
-			AFlame* Flame = GetWorld()->SpawnActorDeferred<AFlame>(FlameClass, FTransform(Currentpos));
-			Flame->FinishSpawning(FTransform(Currentpos));
+			AFlame* Flame = GetWorld()->SpawnActor<AFlame>(FlameClass, FTransform(Currentpos));
+
 			Currentpos += (direction * 50);
 			j++;
 		}
 	}else if (direction.X > 0) {
 		while (Currentpos.X < Endparticle.X && j < 15) {
-			AFlame* Flame = GetWorld()->SpawnActorDeferred<AFlame>(FlameClass, FTransform(Currentpos));
-			Flame->FinishSpawning(FTransform(Currentpos));
+			AFlame* Flame = GetWorld()->SpawnActor<AFlame>(FlameClass, FTransform(Currentpos));
+
 			Currentpos += (direction * 50);
 			j++;
 		}

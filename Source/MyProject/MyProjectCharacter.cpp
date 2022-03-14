@@ -48,7 +48,7 @@ AMyProjectCharacter::AMyProjectCharacter()
 
 	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName) ; // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 
@@ -161,36 +161,37 @@ void AMyProjectCharacter::ThrowBomb()
 	GetComponentBySkillType(ESkillsType::Bomb_Number)->decrease();
 
 	if (!HasAuthority()) {
-		Server_ThrowBomb(SpawnLocation, GetActorRotation());
+		Server_ThrowBomb(SpawnLocation, GetActorRotation(), this, List_Skills[ESkillsType::Flame_Size]->value);
 	}
 	else {
-		Multi_ThrowBomb(SpawnLocation, GetActorRotation());
+		Multi_ThrowBomb(SpawnLocation, GetActorRotation(), this, List_Skills[ESkillsType::Flame_Size]->value);
 	}
 	
 
 }
 
 
-bool AMyProjectCharacter::Server_ThrowBomb_Validate(FVector Location, FRotator Rotation)
+bool AMyProjectCharacter::Server_ThrowBomb_Validate(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int sizeFlame)
 {
 	return true;
 }
 
-void AMyProjectCharacter::Server_ThrowBomb_Implementation(FVector Location, FRotator Rotation)
-{
-	Multi_ThrowBomb(Location, Rotation);
+void AMyProjectCharacter::Server_ThrowBomb_Implementation(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int sizeFlame)
+{	
+	Multi_ThrowBomb(Location, Rotation, PC, sizeFlame);
 }
 
-bool AMyProjectCharacter::Multi_ThrowBomb_Validate(FVector Location, FRotator Rotation)
+bool AMyProjectCharacter::Multi_ThrowBomb_Validate(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int sizeFlame)
 {
 	return true;
 }
 
-void AMyProjectCharacter::Multi_ThrowBomb_Implementation(FVector Location, FRotator Rotation){
+void AMyProjectCharacter::Multi_ThrowBomb_Implementation(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int sizeFlame){
 	if (!IsLocallyControlled()) {
+		PC->GetComponentBySkillType(ESkillsType::Bomb_Number)->decrease();
 		ABomb* Bomb = GetWorld()->SpawnActor<ABomb>(BombClass, Location, Rotation);
-		Bomb->SetOwner(this);
-		Bomb->SetDensity(List_Skills[ESkillsType::Flame_Size]->value);
+		Bomb->SetOwner(PC);
+		Bomb->SetDensity(sizeFlame);
 	}
 		
 }

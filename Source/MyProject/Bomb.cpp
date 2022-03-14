@@ -61,12 +61,13 @@ void ABomb::explode() {
 	
 	if(GetOwner()!=nullptr){
 		AMyProjectCharacter* Player = Cast<AMyProjectCharacter>(GetOwner());
-		if (Player != nullptr) {
+		if (Player != nullptr && HasAuthority()) {
 			UCharacter_Skill* BombComponent = Player->GetComponentBySkillType(ESkillsType::Bomb_Number);
-			if (BombComponent != nullptr) {
+			if (BombComponent != nullptr ) {
 				BombComponent->increase();
 			}
 		}
+		
 	}
 	if (BombSound != nullptr) {
 		UGameplayStatics::PlaySoundAtLocation(this, BombSound, GetActorLocation(), 1.f, 1.f, 0.f, BombSoundAttenuation);

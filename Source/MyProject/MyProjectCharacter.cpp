@@ -161,36 +161,37 @@ void AMyProjectCharacter::ThrowBomb()
 	GetComponentBySkillType(ESkillsType::Bomb_Number)->decrease();
 
 	if (!HasAuthority()) {
-		Server_ThrowBomb(SpawnLocation, GetActorRotation());
+		Server_ThrowBomb(SpawnLocation, GetActorRotation(), this, List_Skills[ESkillsType::Flame_Size]->value);
 	}
 	else {
-		Multi_ThrowBomb(SpawnLocation, GetActorRotation());
+		Multi_ThrowBomb(SpawnLocation, GetActorRotation(), this, List_Skills[ESkillsType::Flame_Size]->value);
 	}
 	
 
 }
 
 
-bool AMyProjectCharacter::Server_ThrowBomb_Validate(FVector Location, FRotator Rotation)
+bool AMyProjectCharacter::Server_ThrowBomb_Validate(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int flameSize)
 {
 	return true;
 }
 
-void AMyProjectCharacter::Server_ThrowBomb_Implementation(FVector Location, FRotator Rotation)
+void AMyProjectCharacter::Server_ThrowBomb_Implementation(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int flameSize)
 {
-	Multi_ThrowBomb(Location, Rotation);
+	Multi_ThrowBomb(Location, Rotation, PC, flameSize);
 }
 
-bool AMyProjectCharacter::Multi_ThrowBomb_Validate(FVector Location, FRotator Rotation)
+bool AMyProjectCharacter::Multi_ThrowBomb_Validate(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int flameSize)
 {
 	return true;
 }
 
-void AMyProjectCharacter::Multi_ThrowBomb_Implementation(FVector Location, FRotator Rotation){
+void AMyProjectCharacter::Multi_ThrowBomb_Implementation(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int flameSize){
 	if (!IsLocallyControlled()) {
+		PC->GetComponentBySkillType(ESkillsType::Bomb_Number)->decrease();
 		ABomb* Bomb = GetWorld()->SpawnActor<ABomb>(BombClass, Location, Rotation);
-		Bomb->SetOwner(this);
-		Bomb->SetDensity(List_Skills[ESkillsType::Flame_Size]->value);
+		Bomb->SetOwner(PC);
+		Bomb->SetDensity(flameSize);
 	}
 		
 }

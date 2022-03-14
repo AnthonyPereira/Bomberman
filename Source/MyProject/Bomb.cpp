@@ -59,7 +59,7 @@ void ABomb::explode() {
 	GetWorldTimerManager().ClearTimer(ExplodeTimerHandle);
 	GetWorld()->SpawnActor<AFlame>(FlameClass, FTransform(GetActorLocation()));
 	
-	if(GetOwner()!=nullptr){
+	if(GetOwner()!=nullptr && HasAuthority()){
 		AMyProjectCharacter* Player = Cast<AMyProjectCharacter>(GetOwner());
 		if (Player != nullptr) {
 			UCharacter_Skill* BombComponent = Player->GetComponentBySkillType(ESkillsType::Bomb_Number);
@@ -109,15 +109,12 @@ void ABomb::ExplodeDirection(FVector direction) {
 			Endparticle = Hits[i].GetActor()->GetActorLocation();
 
 			ADestructableWall* wallhit = Cast<ADestructableWall>(Hits[i].GetActor());
-			if (wallhit != nullptr) {
-				wallhit->Destroy();
+			if (wallhit != nullptr) {				
+				wallhit->Destroy();		
 				break;
 			}
 
-
-
 			ABomb* bomb = Cast<ABomb>(Hits[i].GetActor());
-
 			if (bomb != nullptr && !bomb->Isexplode) {
 				bomb->explode();
 				break;

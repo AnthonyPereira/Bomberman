@@ -65,14 +65,14 @@ public:
 	void ThrowBomb();
 
 	UFUNCTION(Server, Reliable, WithValidation)
-	void Server_ThrowBomb(FVector Location, FRotator Rotation);
-	bool Server_ThrowBomb_Validate(FVector Location, FRotator Rotation);
-	void Server_ThrowBomb_Implementation(FVector Location, FRotator Rotation);
+	void Server_ThrowBomb(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int flameSize);
+	bool Server_ThrowBomb_Validate(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int flameSize);
+	void Server_ThrowBomb_Implementation(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int flameSize);
 
 	UFUNCTION(NetMulticast, Reliable, WithValidation)
-	void Multi_ThrowBomb(FVector Location, FRotator Rotation);
-	bool Multi_ThrowBomb_Validate(FVector Location, FRotator Rotation);
-	void Multi_ThrowBomb_Implementation(FVector Location, FRotator Rotation);
+	void Multi_ThrowBomb(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int flameSize);
+	bool Multi_ThrowBomb_Validate(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int flameSize);
+	void Multi_ThrowBomb_Implementation(FVector Location, FRotator Rotation, AMyProjectCharacter* PC, int flameSize);
 
 
 

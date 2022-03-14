@@ -41,12 +41,11 @@ void ASkills::Tick(float DeltaTime)
 void ASkills::OnBeginOverlap(UPrimitiveComponent* OverlapperComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AMyProjectCharacter* Player = Cast<AMyProjectCharacter>(OtherActor);
+
 	if (Player != nullptr) {
-		
 		UCharacter_Skill* SkillComponent = Player->GetComponentBySkillType(SkillType);
-		if(SkillComponent != nullptr && SkillComponent->increase()) {
-			GEngine->AddOnScreenDebugMessage(5, 5, FColor::Red, FString::Printf(TEXT("test")));
-			Destroy();
+		if(SkillComponent != nullptr && SkillComponent->increase()){
+			this->Destroy();
 		}
 	}
 }

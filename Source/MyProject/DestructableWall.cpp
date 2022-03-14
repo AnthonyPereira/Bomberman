@@ -12,18 +12,17 @@ ADestructableWall::ADestructableWall() {
 ///PARTIE A FAIRE DANS LE SERVEUR
 /// </summary>
 void ADestructableWall::Destroyed() {
-	if (ArrayOfSkills.Num()!=0 && rand()%5 <=2) {
+	if (ArrayOfSkills.Num()!=0 && rand()%2 <1) {
 		int index = rand() % 20;
-		if (index < 8) {
-			index = 3;
+		if (index < 7) {
+			index = 0;
 		}else if (index < 14) {
 			index = 1;
-		}else if (index < 19) {
+		}else if (index < 18) {
 			index = 2;
 		}
 		else {
 			index = 3;
-
 		}
 		if (HasAuthority()) {
 			ASkills* skill = GetWorld()->SpawnActor<ASkills>(ArrayOfSkills[index], GetActorLocation(), GetActorRotation());

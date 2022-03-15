@@ -38,7 +38,7 @@ AMyProjectCharacter::AMyProjectCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
-	GetCharacterMovement()->MaxWalkSpeed = 200.f;
+	GetCharacterMovement()->MaxWalkSpeed = SpeedMax;
 	
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -99,10 +99,10 @@ void AMyProjectCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 void AMyProjectCharacter::OnSpeedUpdate_Implementation()
 {
 	if (List_Skills[ESkillsType::Rabbit]->value == 1) {
-		GetCharacterMovement()->MaxWalkSpeed = 200.f + 50 * List_Skills[ESkillsType::Speed]->max;
+		GetCharacterMovement()->MaxWalkSpeed = SpeedMax + 50 * List_Skills[ESkillsType::Speed]->max;
 	}
 	else {
-		GetCharacterMovement()->MaxWalkSpeed = 200.f + 50 * List_Skills[ESkillsType::Speed]->value;
+		GetCharacterMovement()->MaxWalkSpeed = SpeedMax + 50 * List_Skills[ESkillsType::Speed]->value;
 	}
 	UpdateMyMesh();
 }

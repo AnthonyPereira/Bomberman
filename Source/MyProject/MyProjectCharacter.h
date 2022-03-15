@@ -59,6 +59,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bomb)
 	TSubclassOf<class ABomb> BombClass;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = speedMax)
+	float SpeedMax=250;
+
 	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	TArray<UCharacter_Skill*> List_Skills;
 

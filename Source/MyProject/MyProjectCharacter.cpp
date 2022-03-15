@@ -109,12 +109,7 @@ void AMyProjectCharacter::OnSpeedUpdate_Implementation()
 
 void AMyProjectCharacter::OnDeath_Implementation()
 {
-	AMyProjectPlayerController* PlayerController = Cast<AMyProjectPlayerController>(GetController());
-	if (PlayerController != nullptr) {
-		Death();
-		//PlayerController->ShowRestartWidget();
-		return;
-	}
+	Death();
 }
 
 

@@ -65,6 +65,7 @@ public:
 	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	TArray<UCharacter_Skill*> List_Skills;
 
+	UFUNCTION(BlueprintCallable, Category = Skills)
 	void ThrowBomb();
 
 	UFUNCTION(Server, Reliable, WithValidation)
